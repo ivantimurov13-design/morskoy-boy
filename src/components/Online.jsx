@@ -88,6 +88,7 @@ export default function Online({ captain, mode, soundOn, onHome, onComplete }) {
   };
   const forget = () => { write(KEY, null); currentSession.current = null; setSession(null); setState(null); setChanging(false); setError(''); setFatal(false); setConnected(false); };
   const g = state?.game;
+  useEffect(() => { window.scrollTo(0, 0); }, [g?.phase]);
   return <>
     <div className="online-bar">
       <span><Globe size={19}/>{session ? <>Комната <strong className="room-code-small">{session.code}</strong>{state && ` · Ты ${g.names[state.player]}`}</> : 'Капитаны на разных устройствах'}</span>

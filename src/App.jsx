@@ -17,6 +17,7 @@ export default function App() {
   const [soundOn, setSoundOn] = useState(() => read('sea-sound', true)), [stats, setStats] = useState(() => read('sea-stats-v1', {}));
   const [modal, setModal] = useState(null), [connection, setConnection] = useState(null), [saveOk, setSaveOk] = useState(true);
   const lastSound = useRef(null);
+  useEffect(() => { window.scrollTo(0, 0); }, [screen, game?.phase]);
   useEffect(() => { setSaveOk(write('sea-game-v1', game)); }, [game]);
   useEffect(() => { write('sea-sound', soundOn); }, [soundOn]);
   useEffect(() => { write('sea-captain', captain); }, [captain]);

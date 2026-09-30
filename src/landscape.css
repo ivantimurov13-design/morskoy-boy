@@ -1,0 +1,132 @@
+/* Landscape tablets and laptop windows: fit the main controls to the available
+   height. Content can still scroll if accessibility text sizing needs more room. */
+@media (min-width: 900px) and (min-height: 700px) and (max-height: 1100px) and (orientation: landscape) {
+  .app { height: 100svh; display: flex; flex-direction: column; }
+  .header {
+    flex: none; height: calc(64px + env(safe-area-inset-top, 0px));
+    padding: 10px 3%; padding-top: calc(10px + env(safe-area-inset-top, 0px));
+  }
+  .brand { gap: 12px; }
+  .brand > svg { width: 36px; height: 36px; }
+  .brand strong { font-size: 23px; }
+  .brand small { font-size: 11px; }
+  .header .icon-button { width: 40px; height: 40px; }
+  .header .icon-button svg { width: 21px; height: 21px; }
+
+  .menu { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 10px; padding: 0 3%; overflow: visible; }
+  .hero-art { inset: 0 0 auto; height: 100%; max-height: 620px; background-position: right center; }
+  .hero-content { flex: 1; min-height: 0; padding: 12px 0 0; display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+  .hero-content h1 { font-size: clamp(34px, 5.3vh, 54px); max-width: 660px; }
+  .hero-copy { font-size: 17px; line-height: 1.35; margin: 0 0 4px; }
+  .choice-group { width: 410px; max-width: 46%; margin: 0; }
+  .choice-group legend { font-size: 14px; margin-bottom: 4px; }
+  .segment button { min-height: 44px; padding: 8px 12px; font-size: 17px; }
+  .segment button svg { width: 22px; height: 22px; }
+  .opponent-segment button { font-size: 15px; }
+  .modes { flex: none; gap: 14px; }
+  .mode { min-height: 92px; padding: 12px 16px; gap: 12px; }
+  .mode strong { font-size: 18px; }
+  .mode small { font-size: 13px; margin-top: 4px; }
+  .mode-icon { width: 34px; height: 34px; }
+  .mode .mode-selection { font-size: 11px; line-height: 15px; margin-bottom: 3px; }
+  .launch { flex: none; display: grid; grid-template-columns: repeat(2, max-content); justify-content: center; gap: 4px 12px; margin-top: 0; }
+  .mode-detail, .start { grid-column: 1 / -1; }
+  .mode-detail { font-size: 12px; line-height: 1.4; }
+  .chosen-mode { font-size: 14px; margin-bottom: 2px; }
+  .start { min-height: 50px; min-width: 400px; font-size: 20px; padding: 10px 24px; }
+  .start svg { width: 24px; height: 24px; }
+  .resume { font-size: 13px; padding: 4px 6px; justify-content: center; }
+  .launch:has(.resume:last-child:nth-child(3)) .resume { grid-column: 1 / -1; }
+  .menu-footer { flex: none; padding: 0 0 max(8px, env(safe-area-inset-bottom, 0px)); gap: 12px; font-size: 12px; }
+  .menu-footer button { font-size: 12px; padding: 6px 0; }
+
+  .game-page { width: 100%; max-width: 1320px; padding: 12px 3% max(12px, env(safe-area-inset-bottom, 0px)); }
+  .setup-page, .battle-page { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  .page-heading { flex: none; margin-bottom: 12px; }
+  .page-heading h1 { font-size: 28px; }
+  .page-heading p:not(.section-label) { display: none; }
+  .section-label { font-size: 12px; margin-bottom: 4px; }
+  .heading-icon { width: 38px; height: 38px; }
+  .setup-layout { flex: 1; min-height: 0; grid-template-columns: minmax(0, 1fr) minmax(340px, .95fr); gap: 24px; align-items: center; }
+  .setup-layout > .ocean-panel { width: min(100%, calc(100svh - 240px)); justify-self: center; }
+  .ocean-panel { padding: 12px; border-radius: 18px; }
+  .panel-heading { margin-bottom: 8px; }
+  .panel-heading h2 { font-size: 17px; }
+  .panel-heading > span { font-size: 12px; }
+  .letters { height: 20px; font-size: 11px; }
+  .numbers { font-size: 11px; }
+  .board-legend { font-size: 11px; margin-top: 8px; gap: 6px; }
+  .setup-tools h2 { display: none; }
+  .instruction { font-size: 14px; line-height: 1.45; min-height: 42px; gap: 8px; }
+  .instruction svg { width: 18px; height: 18px; }
+  .fleet-help { font-size: 12px; line-height: 1.35; margin-top: 6px; }
+  .fleet-picker { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; margin: 8px 0 12px; }
+  .fleet-picker button { height: 56px; padding: 5px; gap: 4px; }
+  .fleet-picker .fleet-preview { --deck-width: 22px; height: 24px; }
+  .fleet-preview i { height: 24px; }
+  .fleet-picker .fleet-preview img { padding: 3px 2px; }
+  .fleet-picker .fleet-length { font-size: 13px; }
+  .setup-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 10px; }
+  .setup-actions .secondary { min-height: 44px; padding: 7px 8px; font-size: 14px; gap: 6px; }
+  .setup-actions .text-button { grid-column: 1 / -1; justify-content: center; padding: 4px; font-size: 13px; }
+  .setup-tools > .primary { min-height: 48px; padding: 10px 18px; font-size: 17px; }
+  .setup-tools .small-note { font-size: 11px; line-height: 1.4; margin-top: 8px; }
+
+  .battle-page { position: relative; }
+  .battle-top { flex: none; min-height: 40px; margin-bottom: 8px; }
+  .battle-top > div:first-child { display: flex; flex-direction: row-reverse; align-items: center; justify-content: flex-end; gap: 12px; }
+  .battle-top .section-label { margin: 0; flex: none; }
+  .battle-top h1 { font-size: 26px; }
+  .turn-orb { padding: 8px 12px; font-size: 12px; }
+  .battle-message { flex: none; min-height: 36px; margin-bottom: 8px; padding: 7px 12px; font-size: 14px; }
+  .battle-page .battle-bottom { flex: none; gap: 14px; margin: 0 0 8px; }
+  .battle-hint { font-size: 13px; line-height: 1.4; max-width: none; }
+  .radar-button { min-height: 40px; padding: 6px 12px; font-size: 14px; }
+  .battle-radar .radar-button { position: absolute; top: 12px; right: 3%; }
+  .battle-radar .battle-top { padding-right: 172px; }
+  .battle-radar .turn-orb { display: none; }
+  .battle-page:not(.battle-rookie) .battle-hint:not(.radar-hint) { display: none; }
+  .battle-page:not(.battle-rookie) .battle-bottom:not(:has(.radar-hint)) { margin: 0; }
+  .battle-page:has(.radar-hint) .scan-report { display: none; }
+  .battle-page .scan-report { flex: none; font-size: 12px; margin: 0 0 8px; line-height: 1.4; }
+  .battle-boards { flex: 1; min-height: 0; width: 100%; max-width: none; grid-template-columns: 1fr 1fr; gap: 22px; align-items: center; }
+  .battle-boards > .ocean-panel { width: min(100%, calc(100svh - 340px)); max-width: none; justify-self: center; }
+  .battle-log { flex: none; font-size: 12px; margin-top: 8px; }
+  .battle-log summary { min-height: 24px; }
+  .battle-log[open] ol { max-height: 90px; overflow: auto; margin: 6px 0; }
+
+  /* The board area supplies its actual remaining height, including room banners
+     and radar messages. Square grids keep all ten rows visible. */
+  @supports (width: 1cqh) {
+    .setup-layout, .battle-boards { container-type: size; }
+    .setup-layout > .ocean-panel, .battle-boards > .ocean-panel { width: min(100%, calc(100cqh - 52px)); }
+  }
+
+  .online-bar { flex: none; min-height: 42px; padding: 6px 3%; gap: 8px 16px; font-size: 12px; }
+  .online-bar .text-button { padding: 4px 6px; font-size: 12px; }
+  .online-stage { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  .room-invite { flex: none; max-width: none; margin: 8px 3% 0; padding: 8px 14px; gap: 14px; }
+  .room-invite > div { display: flex; align-items: center; gap: 16px; }
+  .room-invite .room-code { font-size: 24px; margin: 0; white-space: nowrap; }
+  .room-invite p { font-size: 11px; line-height: 1.35; margin: 0; }
+  .room-invite .secondary { min-height: 38px; font-size: 12px; padding: 6px 12px; }
+  .app-online .fleet-picker { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .app-online .fleet-preview { --deck-width: 14px; }
+  .app-online .fleet-length { font-size: 12px; }
+  .online-stage .handoff, .app-handoff .handoff { flex: 1; min-height: 0; padding: 24px; }
+  .online-stage .result-page, .app-result .result-page { flex: 1; min-height: 0; padding: 20px; }
+  .privacy-symbol, .trophy { width: 84px; height: 84px; margin-bottom: 16px; }
+  .privacy-symbol svg, .trophy svg { width: 44px; height: 44px; }
+  .result-page h1, .handoff h1 { font-size: 38px; }
+  .result-stats { margin: 20px 0; }
+}
+
+@media (min-width: 900px) and (min-height: 700px) and (max-height: 780px) and (orientation: landscape) {
+  .menu { gap: 8px; }
+  .hero-content { padding-top: 8px; gap: 6px; }
+  .hero-content h1 { font-size: 34px; }
+  .hero-copy { display: none; }
+  .fleet-picker { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .fleet-picker .fleet-preview { --deck-width: 14px; }
+  .fleet-picker .fleet-length { font-size: 12px; }
+}
