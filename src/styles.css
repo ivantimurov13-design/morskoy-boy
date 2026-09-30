@@ -7,6 +7,10 @@
 @supports(padding:env(safe-area-inset-top)){.header{padding-top:max(12px,env(safe-area-inset-top));height:calc(100px + env(safe-area-inset-top))}.menu-footer,.game-page,.result-page,.handoff{padding-bottom:max(24px,env(safe-area-inset-bottom))}@media(max-width:760px){.header{height:calc(78px + env(safe-area-inset-top))}}}
 @media(min-width:761px) and (max-width:900px){.battle-boards{grid-template-columns:1fr;max-width:560px;margin:auto;gap:24px}.battle-boards .own-panel{max-width:450px;width:100%;margin:auto}.battle-bottom{max-width:560px;margin:20px auto 0;flex-wrap:wrap}.battle-log,.scan-report{max-width:560px;margin-left:auto;margin-right:auto}.battle-top h1{font-size:29px}.battle-message{max-width:700px;margin-left:auto;margin-right:auto}}
 .battle-page .battle-bottom{margin-top:0;margin-bottom:18px}.battle-page .scan-report{margin-top:0;margin-bottom:16px}
+.mode-copy{min-width:0}.mode .mode-selection{display:flex;align-items:center;gap:5px;font-size:12px;font-weight:800;line-height:18px;margin-bottom:7px;visibility:hidden}.mode.selected .mode-selection{visibility:visible}
+.mode.selected,.mode.selected:hover{background:var(--mint);border-color:var(--mint);color:#112a28;box-shadow:0 0 0 3px #b6ed7830,0 8px 22px #03142140}
+.mode.selected .mode-icon,.mode.selected small{color:#244b3e}.mode.selected .mode-icon{stroke-width:2}
+.chosen-mode{display:block;font-size:16px;color:var(--mint);margin-bottom:5px}
 .fleet-help{font-size:14px;color:var(--muted);margin-top:14px;line-height:1.5}
 .fleet-picker{margin:14px 0 21px;grid-template-columns:repeat(3,minmax(0,1fr))}
 .fleet-picker button{flex-direction:column;justify-content:center;gap:10px;height:94px;padding:12px 8px;min-width:0}
