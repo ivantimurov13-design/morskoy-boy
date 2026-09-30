@@ -2,15 +2,17 @@ import { useState } from 'react';
 import { Crosshair, Radar, Shield, Sparkles, Waves } from 'lucide-react';
 import Board from './Board.jsx';
 import { remaining, MODES } from '../engine.js';
-export default function Battle({ game, dispatch, sound }) {
+export default function Battle({ game, dispatch, sound, locked = false }) {
   const [radar, setRadar] = useState(false);
-  const viewer = game.opponent === 'ai' ? 0 : game.turn, enemy = 1 - viewer, thinking = game.opponent === 'ai' && game.turn === 1;
+  const online = game.opponent === 'online';
+  const viewer = online ? game.viewer : game.opponent === 'ai' ? 0 : game.turn, enemy = 1 - viewer;
+  const thinking = online ? game.turn !== viewer || locked : game.opponent === 'ai' && game.turn === 1;
   const myShots = game.shots[viewer], theirShots = game.shots[enemy];
-  const enemyLeft = remaining(game.boards[enemy], myShots), ownLeft = remaining(game.boards[viewer], theirShots);
+  const enemyLeft = online ? game.left[enemy] : remaining(game.boards[enemy], myShots), ownLeft = remaining(game.boards[viewer], theirShots);
   const last = game.last;
   const hint = game.mode === 'rookie' && Object.values(myShots).includes('hit') ? 'Есть попадание! Попробуй клетку сверху, снизу, слева или справа — корабль продолжается по прямой.' : 'Нажми на клетку в море соперника. Попал — стреляй ещё раз. Мимо — ход переходит сопернику.';
   const scan = game.scans[viewer];
-  return <main className="game-page battle-page"><div className="battle-top"><div><p className="section-label">{MODES[game.mode].title}</p><h1>{thinking ? 'Капитан Бот выбирает цель…' : `${game.names[viewer]}, твой ход!`}</h1></div><div className={`turn-orb ${thinking ? 'thinking' : ''}`}><Crosshair/>{thinking ? 'Ход соперника' : 'Наведи на цель'}</div></div>
+  return <main className="game-page battle-page"><div className="battle-top"><div><p className="section-label">{MODES[game.mode].title}</p><h1>{thinking ? online ? locked && game.turn === viewer ? 'Передаём сигнал…' : `${game.names[enemy]} выбирает цель…` : 'Капитан Бот выбирает цель…' : `${game.names[viewer]}, твой ход!`}</h1></div><div className={`turn-orb ${thinking ? 'thinking' : ''}`}><Crosshair/>{thinking ? 'Ход соперника' : 'Наведи на цель'}</div></div>
     <div className="battle-message" role="status" aria-live="polite">{last ? <><Sparkles size={22}/><span>{game.log[0]}{last.result === 'hit' || last.result === 'sunk' ? ' Ещё один выстрел!' : ''}</span></> : <><Waves/><span>Попутного ветра! Найди все корабли соперника.</span></>}</div>
     <div className="battle-bottom"><p className="battle-hint">{radar ? 'Радар включён! Выбери центр области 3 × 3. Он посчитает целые палубы, но не покажет их места.' : hint}</p>{game.mode === 'radar' && <button className={`secondary radar-button ${radar ? 'armed' : ''}`} disabled={thinking || game.charges[viewer] === 0} onClick={() => setRadar(r => !r)}><Radar/>{radar ? 'Отменить радар' : `Радар · ${game.charges[viewer]}/2`}</button>}</div>
     {scan && <p className="scan-report" role="status"><Radar size={20}/> Проверено клеток: {scan.cells.length}. Целых палуб на момент сканирования: {scan.count}. Радар не тратит ход.</p>}

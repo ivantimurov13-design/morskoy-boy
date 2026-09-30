@@ -9,3 +9,4 @@ docs/
 .publish/
 .env
 .env.*
+.multiplayer-data/

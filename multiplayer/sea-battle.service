@@ -1,0 +1,35 @@
+[Unit]
+Description=Battleship rooms for Damir and Danya
+After=network.target
+
+[Service]
+Type=simple
+User=sea-battle
+Group=sea-battle
+WorkingDirectory=/opt/sea-battle/current
+ExecStart=/opt/sea-battle/runtime/bin/node --max-old-space-size=64 multiplayer/server.mjs
+Environment=NODE_ENV=production
+Environment=PORT=4188
+Environment=DATA_DIR=/var/lib/sea-battle
+Environment=TRUST_PROXY=true
+Environment=ALLOWED_ORIGINS=https://ivantimurov13-design.github.io,http://localhost:4173,http://127.0.0.1:4173,http://bobby-mini.local:4173
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+StateDirectory=sea-battle
+StateDirectoryMode=0700
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/sea-battle
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+MemoryMax=160M
+CPUQuota=25%
+TasksMax=32
+Nice=10
+
+[Install]
+WantedBy=multi-user.target
