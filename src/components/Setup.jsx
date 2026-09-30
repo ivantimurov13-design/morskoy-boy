@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { Shuffle, RotateCw, ArrowRight, Anchor, MousePointer2 } from 'lucide-react';
 import Board from './Board.jsx';
 import { canPlace, cellsFor, MODES } from '../engine.js';
+const lengthLabel = length => `${length} ${length === 1 ? 'клетка' : 'клетки'}`;
+const placementHint = length => `Этот корабль занимает ${length} ${length === 1 ? 'клетку' : 'клетки'}. Нажми на поле, где будет его начало.`;
 export default function Setup({ game, dispatch }) {
   const [selected, setSelected] = useState(null), [vertical, setVertical] = useState(false), [message, setMessage] = useState('Флот уже готов! Можешь отправляться в бой или расставить корабли по-своему.');
   const ships = game.boards[game.setupPlayer];
   const move = start => {
     if (selected === null) {
       const ship = ships.find(s => s.cells.includes(start));
-      if (ship) { setSelected(ship.id); setVertical(ship.vertical); setMessage('Нажми на клетку, где будет начало корабля.'); }
+      if (ship) { setSelected(ship.id); setVertical(ship.vertical); setMessage(placementHint(ship.cells.length)); }
       else setMessage('Сначала выбери корабль на поле или в списке справа.');
       return;
     }
@@ -18,7 +20,11 @@ export default function Setup({ game, dispatch }) {
   };
   return <main className="game-page"><div className="page-heading"><div><p className="section-label">{MODES[game.mode].title}</p><h1>{game.names[game.setupPlayer]}, собери флот</h1><p>Твоя маленькая эскадра готова к большому приключению.</p></div><Anchor className="heading-icon"/></div>
     <div className="setup-layout"><section className="ocean-panel"><div className="panel-heading"><h2>Твоя гавань</h2><span>{ships.length} кораблей</span></div><Board size={game.size} ships={ships} reveal onCell={move} selected={selected} label="Расстановка кораблей"/><div className="board-legend"><span><i className="legend-ship"/> Твой корабль</span><span>Корабли не касаются друг друга</span></div></section>
-      <aside className="setup-tools"><h2>Готов к отплытию?</h2><p className="instruction" aria-live="polite"><MousePointer2 size={21}/>{message}</p><div className="fleet-picker" aria-label="Выбрать корабль">{ships.map((s, i) => <button key={s.id} aria-label={`Корабль ${i + 1}, палуб: ${s.cells.length}`} aria-pressed={selected === s.id} onClick={() => { setSelected(s.id); setVertical(s.vertical); setMessage('Нажми на клетку, где будет начало корабля.'); }}><img src={`${import.meta.env.BASE_URL}assets/ship.png`} alt=""/><span>{s.cells.length}</span></button>)}</div>
+      <aside className="setup-tools"><h2>Готов к отплытию?</h2><p className="instruction" aria-live="polite"><MousePointer2 size={21}/>{message}</p><p className="fleet-help" id="fleet-help">Выбери корабль. Его длина — столько клеток он занимает на поле.</p>
+        <div className="fleet-picker" aria-label="Выбрать корабль" aria-describedby="fleet-help">{ships.map((s, i) => <button key={s.id} aria-label={`Корабль ${i + 1}: ${lengthLabel(s.cells.length)}`} aria-pressed={selected === s.id} onClick={() => { setSelected(s.id); setVertical(s.vertical); setMessage(placementHint(s.cells.length)); }}>
+          <span className="fleet-preview" style={{ '--decks': s.cells.length }} aria-hidden="true">{s.cells.map(cell => <i key={cell}/>)}<img src={`${import.meta.env.BASE_URL}assets/ship.png`} alt=""/></span>
+          <span className="fleet-length">{lengthLabel(s.cells.length)}</span>
+        </button>)}</div>
         <div className="setup-actions"><button className="secondary" onClick={() => { setVertical(v => !v); setMessage(selected === null ? 'Выбери корабль, затем поверни и поставь его на поле.' : 'Направление изменено. Теперь выбери начало корабля на поле.'); }}><RotateCw size={20}/>{vertical ? 'Вертикально' : 'Горизонтально'}</button><button className="secondary" onClick={() => { dispatch({ type: 'SHUFFLE' }); setSelected(null); setMessage('Новая расстановка готова. Можно в бой!'); }}><Shuffle size={20}/> Расставить случайно</button>{selected !== null && <button className="text-button" onClick={() => { setSelected(null); setMessage('Перемещение отменено. Флот готов к бою.'); }}>Отменить выбор</button>}</div>
         <button className="primary" onClick={() => dispatch({ type: 'READY' })}>Флот готов! <ArrowRight/></button><p className="small-note">{game.opponent === 'friend' ? 'После расстановки передай устройство другому капитану. Поле будет скрыто.' : game.opponent === 'online' ? 'Друг не видит твои корабли. Бой начнётся, когда оба капитана нажмут «Флот готов».' : 'Компьютер не видит твои корабли. Всё по-честному!'}</p>
       </aside></div>
